@@ -5,10 +5,192 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RexNodes™ - Free Hosting, No Limits</title>
-    <meta name="description" content="Premium hosting services completely free. Experience enterprise-grade hosting with DDoS protection, fast SSD storage, and 24/7 uptime." />
+    <meta
+      name="description"
+      content="Premium hosting services completely free. Experience enterprise-grade hosting with DDoS protection, fast SSD storage, and 24/7 uptime."
+    />
+
+    <!-- Performance and Security optimizations -->
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="color-scheme" content="dark" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Preload critical resources -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    /></noscript>
+
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="//api.tempo.build" />
+
+    <!-- Preconnect to critical origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Critical CSS inline for faster rendering -->
+    <style>
+      /* Critical above-the-fold styles */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #0a0a0f;
+        color: white;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        line-height: 1.5;
+      }
+
+      #root {
+        min-height: 100vh;
+      }
+
+      /* Loading state */
+      .loading-fallback {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0a0a0f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(168, 85, 247, 0.3);
+        border-top: 3px solid #a855f7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Loading fallback for immediate feedback -->
+    <div id="loading-fallback" class="loading-fallback">
+      <div class="loading-spinner"></div>
+    </div>
+
     <div id="root"></div>
+
+    <!-- Main application script -->
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Enhanced initialization and error handling -->
+    <script>
+      // App initialization with timeout protection
+      (function () {
+        console.log("Initializing page...");
+
+        // Set a maximum loading time to prevent infinite loading
+        const MAX_LOADING_TIME = 10000; // 10 seconds
+        const loadingTimeout = setTimeout(() => {
+          console.warn(
+            "App loading timeout - forcing removal of loading screen",
+          );
+          const loadingFallback = document.getElementById("loading-fallback");
+          if (loadingFallback) {
+            loadingFallback.style.opacity = "0";
+            setTimeout(() => {
+              loadingFallback.remove();
+            }, 300);
+          }
+        }, MAX_LOADING_TIME);
+
+        // Optional Tempo error handling (don't block if it fails)
+        if (
+          typeof window !== "undefined" &&
+          window.location.hostname.includes("tempo.build")
+        ) {
+          try {
+            const script = document.createElement("script");
+            script.src =
+              "https://api.tempo.build/proxy-asset?url=https://storage.googleapis.com/tempo-public-assets/error-handling.js";
+            script.async = true;
+            script.onerror = function () {
+              console.log(
+                "Tempo error handling script not available (likely blocked) - continuing without it",
+              );
+            };
+            script.onload = function () {
+              console.log("Tempo error handling loaded successfully");
+            };
+            document.head.appendChild(script);
+          } catch (e) {
+            console.log("Tempo error handling not available:", e);
+          }
+        }
+
+        // Remove loading fallback when app loads
+        const removeLoadingFallback = () => {
+          clearTimeout(loadingTimeout);
+          const loadingFallback = document.getElementById("loading-fallback");
+          if (loadingFallback) {
+            console.log("Removing loading fallback");
+            loadingFallback.style.opacity = "0";
+            setTimeout(() => {
+              loadingFallback.remove();
+            }, 300);
+          }
+        };
+
+        // Multiple ways to detect when app is ready
+        window.addEventListener("load", removeLoadingFallback);
+        document.addEventListener("DOMContentLoaded", () => {
+          // Give React a moment to render
+          setTimeout(removeLoadingFallback, 1000);
+        });
+
+        // Also check periodically if React has rendered
+        const checkAppReady = () => {
+          const root = document.getElementById("root");
+          if (root && root.children.length > 0) {
+            console.log("React app detected, removing loading screen");
+            removeLoadingFallback();
+          } else {
+            setTimeout(checkAppReady, 500);
+          }
+        };
+        setTimeout(checkAppReady, 1000);
+
+        // Global error handlers (non-blocking)
+        window.addEventListener("error", function (e) {
+          console.error("Global error:", e.error);
+          // Don't let errors block the app
+        });
+
+        window.addEventListener("unhandledrejection", function (e) {
+          console.error("Unhandled promise rejection:", e.reason);
+          // Don't let promise rejections block the app
+          e.preventDefault();
+        });
+
+        console.log("Page initialization complete");
+      })();
+    </script>
   </body>
 </html>
