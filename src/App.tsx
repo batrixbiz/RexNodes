@@ -328,9 +328,12 @@ function App() {
               </button>
               <button
                 onClick={() => {
-                  document
-                    .getElementById("features")
-                    ?.scrollIntoView({ behavior: "smooth" });
+                  setCurrentPage("home"); // however you switch views
+                  setTimeout(() => {
+                    document
+                      .getElementById("features")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }, 50);
                 }}
                 className={`px-4 py-2 rounded-xl transition-all hover:text-foreground hover:bg-secondary/50 ${currentPage === "features" ? "text-foreground bg-secondary/50" : "text-muted-foreground"} hover-glow`}
               >
