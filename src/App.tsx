@@ -355,7 +355,7 @@ function App() {
 
             <div className="flex items-center space-x-3">
               <a
-                href="https://panel5.benmc.dpdns.org/"
+                href="https://vms.zyron.dpdns.org/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 rounded-xl"
@@ -522,7 +522,7 @@ function App() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-700 animate-fade-in">
               <a
-                href="https://panel5.benmc.dpdns.org/"
+                href="https://vms.zyron.dpdns.org/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-2xl px-8 py-4 text-lg font-semibold hover-glow"
@@ -1135,7 +1135,7 @@ function App() {
               services and monitor performance.
             </p>
             <a
-              href="https://panel5.benmc.dpdns.org/"
+              href="https://vms.zyron.dpdns.org/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-semibold transition-all"
